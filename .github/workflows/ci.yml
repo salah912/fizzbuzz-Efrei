@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - feature/*  # Inclut toutes les branches de fonctionnalité
+      - feature/*
   pull_request:
     branches:
       - main
@@ -27,17 +27,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Debug environment
+        run: |
+          python --version
+          pip list
+          ls -R
+
       - name: Run tests with coverage
         run: |
-          pytest --cov=fizzbuzz --cov-report=xml --cov-report=term
-
-  publish_docs:
-    if: github.ref == 'refs/heads/main'  # Étape conditionnelle pour `main`
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Generate Documentation
-        run: |
-          echo "Génération de la documentation ici"
+          pytest tests --cov=fizzbuzz --cov-report=xml --cov-report=term
