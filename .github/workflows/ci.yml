@@ -1,9 +1,10 @@
-name: Run Tests and Coverage on Push
+name: Run Tests and Coverage
 
 on:
   push:
     branches:
       - main
+      - feature/*  # Inclut toutes les branches de fonctionnalité
   pull_request:
     branches:
       - main
@@ -29,3 +30,14 @@ jobs:
       - name: Run tests with coverage
         run: |
           pytest --cov=fizzbuzz --cov-report=xml --cov-report=term
+
+  publish_docs:
+    if: github.ref == 'refs/heads/main'  # Étape conditionnelle pour `main`
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Generate Documentation
+        run: |
+          echo "Génération de la documentation ici"
