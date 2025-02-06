@@ -26,5 +26,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Run the project
+        run : |
+          python fizzbuzz.py
+
       - name: Run tests
-        run: pytest
+        run: |
+          pytest 
