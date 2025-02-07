@@ -27,31 +27,4 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Debug environment
-        run: |
-          python --version
-          pip list
-          ls -R
-
-      - name: Run the project (without flooding logs)
-        run: |
-          python fizzbuzz.py > /dev/null  # Redirige la sortie pour éviter du spam
-
-      - name: Run tests with coverage
-        run: |
-          pytest tests --cov=fizzbuzz --cov-report=xml --cov-report=term --cov-report=html
-
-      - name: Upload Coverage Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-report
-          path: htmlcov/  # Assure-toi que htmlcov/ est généré
-
-  pr-validation:
-    needs: test  # Cette étape dépend du succès des tests
-    if: github.event_name == 'pull_request' && success()
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Validate_PR
-        run: echo "✅ Tests passed! PR can be merged."
+      - name: Debu
