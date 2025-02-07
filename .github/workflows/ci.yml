@@ -12,7 +12,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    container: python:3.12.9-alpine  # Utilise une image Docker avec Python pour les tests
+    container: python:3.12-alpine  # Utilise une image Docker avec Python pour les tests
 
     steps:
       - name: Checkout repository
