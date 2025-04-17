@@ -25,27 +25,19 @@ jobs:
 
       - name: Run tests with coverage
         run: |
-          pytest tests --cov=fizzbuzz --cov-report=xml --cov-report=term
+          pytest tests --cov=fizzbuzz --cov-report=xml --cov-report=term --cov-report=html
 
-  build-docker-image:
-    runs-on: ubuntu-latest
-    needs: test  # Cette étape ne s'exécute que si les tests passent ✅
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Build Docker Image
-        run: |
-          docker build -t fizzbuzz-app .
-
-      - name: Save Docker Image as Artifact
-        run: |
-          docker save fizzbuzz-app > fizzbuzz-app.tar
-        shell: bash
-
-      - name: Upload Docker Image
+      - name: Upload Coverage Report
         uses: actions/upload-artifact@v4
         with:
-          name: docker-image
-          path: fizzbuzz-app.tar
+          name: coverage-report
+          path: htmlcov/  # Assure-toi que htmlcov/ est généré
+
+  pr-validation:
+    needs: test  # Cette étape dépend du succès des tests
+    if: github.event_name == 'pull_request' && success()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Validate_PR
+        run: echo "✅ Tests passed! PR can be merged."
